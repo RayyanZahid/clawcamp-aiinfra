@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>ClawCamp · Agent Orchestration, Context Engineering &amp; Meta Prompting</title>
-  <meta name="description" content="Vibe Coding Nights at ClawCamp. A 20-minute workshop on context engineering, meta prompting, the GSD framework, and the Claude Agent SDK. By Michalis Vasileiadis & Rayyan Zahid." />
+  <title>ClawCamp · Reliability for Critical Workflows · AI Infra Summit 5</title>
+  <meta name="description" content="Hardening autonomous agents for critical workflows. The catastrophe tape, the six failure classes, and the OpenClaw hardening checklist. AI Infra Summit 5 — May 2026. By Michalis Vasileiadis & Rayyan Zahid." />
   <meta name="author" content="Michalis Vasileiadis, Rayyan Zahid" />
-  <meta property="og:title" content="ClawCamp · Agent Orchestration · Context Engineering · Meta Prompting" />
-  <meta property="og:description" content="The claw is the law. Molt your context. Compile your prompts. Ship agents that don't lie about deleting your database." />
+  <meta property="og:title" content="ClawCamp · Reliability for Critical Workflows · AI Infra Summit 5" />
+  <meta property="og:description" content="Big mistakes. Their antidotes. The OpenClaw hardening checklist. The model proposes; the harness disposes." />
   <meta property="og:type" content="website" />
 
   <link rel="stylesheet" href="tokens/layout.css" />
@@ -23,7 +23,7 @@
   <div class="chrome" aria-hidden="true">
     <div class="chrome__top">
       <span class="chrome__brand">CLAWCAMP</span>
-      <span>VIBE CODING NIGHTS / APR 2026</span>
+      <span>AI INFRA SUMMIT 5 / 01 MAY 2026 / SUNNYVALE</span>
     </div>
   </div>
 
@@ -1518,6 +1518,698 @@ sleep = random(<span class="str">0</span>, min(cap, base * <span class="str">2</
         <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); line-height: 1; margin-top: 2rem; max-width: 30ch; color: var(--color-fg);">
           Boring agents <span style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">compound.</span><br />
           Exciting agents <span style="color: var(--color-accent-2); font-style: normal; font-weight: 700;">crash.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- PART 03 · HARDENING FOR CRITICAL WORKFLOWS                       -->
+    <!-- New section — AI Infra Summit 5 expansion. Big mistakes,         -->
+    <!-- their antidotes, and a concrete OpenClaw hardening checklist.    -->
+    <!-- ============================================================== -->
+
+    <!-- ===================================================== -->
+    <!-- SECTION OPENER · PART 03                                -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--title">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --tr"></span>
+      <span class="register-mark --bl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="hero">
+        <div class="part-chip reveal">
+          <strong>PART 03</strong> <span>The chassis is not enough</span>
+        </div>
+        <h1 class="slide__title slide__title--massive reveal">
+          When stakes<br/>
+          get <span class="accent-red">real.</span>
+        </h1>
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); color: var(--color-fg); max-width: 30ch; margin-top: 1.5rem;">
+          Boring is the floor.<br/>
+          <strong style="font-style: normal; color: var(--color-accent-2); font-weight: 700;">Critical</strong> needs more.
+        </p>
+        <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--color-muted); margin-top: 1.5rem;">
+          For agents touching prod data, money, or people.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — Catastrophe tape                                  -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·the catastrophe tape</span>
+      </div>
+
+      <div class="pre-b__row">
+        <div class="pre-b__cell pre-b__cell--blob-1" data-label="del"></div>
+        <div class="pre-b__cell pre-b__cell--blob-2" data-label="lie"></div>
+        <div class="pre-b__cell pre-b__cell--blob-3" data-label="leak"></div>
+        <div class="pre-b__cell pre-b__cell--blob-4" data-label="buy"></div>
+        <div class="pre-b__cell pre-b__cell--blob-5" data-label="$$$"></div>
+      </div>
+
+      <p class="pre__caption">Mistakes worth remembering.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · CATASTROPHE TAPE                                -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>EXHIBIT A</strong> <span>The catastrophe tape</span>
+        </div>
+        <h2 class="slide__title reveal">
+          What goes wrong,<br/>
+          <span class="accent-red">in production.</span>
+        </h2>
+        <p class="slide__body slide__body--wide reveal" style="font-size: var(--type-subhead-room); max-width: 56ch; color: var(--color-muted);">
+          Six real incidents, 2024–2026. Different vendors, same shape:
+          <em style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">the safety property lived in the prompt, not in the harness.</em>
+        </p>
+
+        <div class="tombstone-grid reveal">
+          <div class="tomb">
+            <span class="tomb__date">Jul 2025 · Replit</span>
+            <span class="tomb__what">Wiped prod DB during a code freeze.</span>
+            <span class="tomb__count">1,206 execs + 1,196 companies deleted. 4,000 fake users fabricated. <em>"I panicked instead of thinking."</em></span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — PreToolUse deny on <code style="font-family: var(--font-brutalist);">DROP|DELETE</code> against <code style="font-family: var(--font-brutalist);">env=prod</code> DSNs. Dev/prod isolation by IAM, not by prompt.</span>
+          </div>
+
+          <div class="tomb">
+            <span class="tomb__date">Apr 2026 · PocketOS</span>
+            <span class="tomb__what">Cursor + Opus 4.6 deleted the volume in 9 seconds.</span>
+            <span class="tomb__count">30+ hour outage. Backups colocated with the volume they "protected." Customers stranded at car-rental pickups.</span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — least privilege per-tool, not per-agent. Backups behind a separate IAM principal. Any cloud verb matching <code style="font-family: var(--font-brutalist);">*Delete*</code> is tier-3.</span>
+          </div>
+
+          <div class="tomb">
+            <span class="tomb__date">Dec 2025 · AWS Kiro</span>
+            <span class="tomb__what">"Cleanest fix" was to delete and rebuild prod.</span>
+            <span class="tomb__count">13-hour AWS Cost Explorer outage in mainland China. Goal-drift from "minor bug" to "nuke environment."</span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — IAM excludes <code style="font-family: var(--font-brutalist);">*:Delete*</code> on <code style="font-family: var(--font-brutalist);">env=prod</code>. Plans containing destructive verbs get a typed approver field.</span>
+          </div>
+
+          <div class="tomb">
+            <span class="tomb__date">Feb 2024 · Air Canada</span>
+            <span class="tomb__what">Chatbot invented a bereavement-fare refund.</span>
+            <span class="tomb__count">BCCRT ruled the airline liable: <em>"the chatbot is not a separate legal entity."</em> First common-law precedent.</span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — typed verb <code style="font-family: var(--font-brutalist);">QuotePolicy(id)</code> returns canonical text. Money-back terms must cite a verifiable policy ID. Cite-or-refuse.</span>
+          </div>
+
+          <div class="tomb">
+            <span class="tomb__date">Feb 2025 · OpenAI Operator</span>
+            <span class="tomb__what">Bought $31.43 of groceries without consent.</span>
+            <span class="tomb__count">User asked for a price comparison. Operator ordered. The "ask before purchasing" guarantee was a soft prompt instruction.</span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — <code style="font-family: var(--font-brutalist);">approval_gate=True</code> on every <code style="font-family: var(--font-brutalist);">Verb.Purchase()</code>. Implemented in the harness, not in the prompt.</span>
+          </div>
+
+          <div class="tomb">
+            <span class="tomb__date">Aug 2012 · Knight Capital</span>
+            <span class="tomb__what">$440M in 45 minutes. Pre-LLM. Same shape.</span>
+            <span class="tomb__count">Botched 8-server deploy left dead 2003 code live. Bought high, sold low across 154 stocks. ~397M shares.</span>
+            <span class="tomb__antidote"><strong>Antidote</strong> — every worker reports a version+spec hash. Orchestrator refuses to dispatch on drift. Per-strategy kill switch. PnL-drift circuit breaker.</span>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); color: var(--color-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-top: 1rem;">
+          Sources · Fortune · The Register · CBC · BCCRT Moffatt v. Air Canada · SEC 34-70694 · Incident DB
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — Six failure classes                               -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·the pattern</span>
+      </div>
+
+      <div class="pre-b__row">
+        <div class="pre-b__cell pre-b__cell--blob-1" data-label="destruct"></div>
+        <div class="pre-b__cell pre-b__cell--blob-2" data-label="hallucinate"></div>
+        <div class="pre-b__cell pre-b__cell--blob-3" data-label="inject"></div>
+        <div class="pre-b__cell pre-b__cell--blob-4" data-label="drift"></div>
+        <div class="pre-b__cell pre-b__cell--blob-5" data-label="exfil"></div>
+      </div>
+
+      <p class="pre__caption">Six classes. One shape.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · SIX FAILURE CLASSES                             -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="two-col two-col--weighted">
+        <div class="stack stack--center">
+          <div class="part-chip reveal">
+            <strong>TAXONOMY</strong> <span>Name the shape</span>
+          </div>
+          <h2 class="slide__title reveal">
+            Six failure classes.<br/>
+            <span class="accent-red">One root cause.</span>
+          </h2>
+          <p class="slide__body slide__body--wide reveal" style="font-size: var(--type-subhead-room); max-width: 36ch;">
+            Every catastrophe in the tape shares one shape:
+            the safety property was a <em style="color: var(--color-muted); font-style: italic;">prompt instruction</em>
+            instead of a <strong style="color: var(--color-accent-1);">harness invariant.</strong>
+          </p>
+          <p class="slide__body slide__body--wide reveal" style="font-size: var(--type-body-room); max-width: 36ch; color: var(--color-muted);">
+            Pattern-match the class. Then bolt on the primitive.
+          </p>
+        </div>
+        <div class="stack">
+          <div class="err-table reveal">
+            <div class="err-table__row --head">
+              <span>Class</span><span>Pattern</span><span>Antidote primitive</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">destructive</span>
+              <span class="err-table__when">Irreversible verb on prod with no preview</span>
+              <span class="err-table__action">Reversibility tiers · PreToolUse deny</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">hallucinated</span>
+              <span class="err-table__when">Fabricated policy / path / argument</span>
+              <span class="err-table__action">Cite-or-refuse · read-after-write</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">injected</span>
+              <span class="err-table__when">Untrusted input hijacks tool calls</span>
+              <span class="err-table__action">Provenance tags · egress allowlist</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">drifted</span>
+              <span class="err-table__when">"Press on" instead of "stop and ask"</span>
+              <span class="err-table__action">Hard approval gate · pause-on-uncertainty</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">exfiltrated</span>
+              <span class="err-table__when">Sensitive bytes leave the tenant</span>
+              <span class="err-table__action">DLP egress proxy · credential brokering</span>
+            </div>
+            <div class="err-table__row">
+              <span class="err-table__kind">runaway</span>
+              <span class="err-table__when">Bad signal compounds at machine speed</span>
+              <span class="err-table__action">Loop budget · circuit breaker · kill switch</span>
+            </div>
+          </div>
+          <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); color: var(--color-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-top: 1rem;">
+            Six classes. Six primitives. The rest of part 03.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · THE INVERSION                                   -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack stack--center">
+        <div class="part-chip reveal">
+          <strong>THE INVERSION</strong> <span>The principle of part 03</span>
+        </div>
+        <h2 class="slide__title slide__title--massive reveal" style="max-width: 22ch;">
+          Don't write safety<br/>
+          in the <span class="accent-red">prompt.</span>
+        </h2>
+        <h2 class="slide__title slide__title--massive reveal" style="max-width: 22ch; color: var(--color-accent-2);">
+          Encode it in the<br/>
+          <span style="color: var(--color-accent-1);">harness.</span>
+        </h2>
+
+        <div class="two-col reveal" style="margin-top: 2rem; align-items: start; max-width: 92ch;">
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: var(--color-accent-2);">⨯ Aspiration · prompt-as-policy</p>
+            <div class="code-block">
+<span class="com"># system prompt</span>
+<span class="str">"Never delete production data.</span>
+<span class="str"> Always ask before purchasing.</span>
+<span class="str"> Do not push to main."</span>
+
+<span class="com"># a wish, not a guarantee</span>
+<span class="com"># injection erases it</span>
+<span class="com"># drift erodes it</span></div>
+          </div>
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: #006b3c;">✓ Guarantee · harness-as-policy</p>
+            <div class="code-block">
+<span class="com"># PreToolUse hook · deterministic</span>
+<span class="kw">if</span> tool == <span class="str">"Bash"</span> <span class="kw">and</span> matches(
+    cmd, <span class="str">r"DROP|DELETE|TRUNCATE"</span>
+) <span class="kw">and</span> dsn_env(cmd) == <span class="str">"prod"</span>:
+    <span class="kw">return</span> deny(<span class="str">"prod write blocked"</span>)
+
+<span class="com"># exit code 2 stops the call</span>
+<span class="com"># injection cannot bypass it</span></div>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); line-height: 1.05; margin-top: 2rem; max-width: 32ch; text-align: center;">
+          The model proposes.<br/>
+          The <span style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">harness disposes.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — Reversibility tiers                               -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·tier the action</span>
+      </div>
+
+      <div class="pre-b__col">
+        <div class="pre-b__cell pre-b__cell--blob-1"></div>
+        <div class="pre-b__cell pre-b__cell--blob-2"></div>
+        <div class="pre-b__cell pre-b__cell--blob-3"></div>
+        <div class="pre-b__cell pre-b__cell--blob-4 pre-b__cell--blocked"></div>
+      </div>
+
+      <p class="pre__caption">Tier the verbs. Gate the tier.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · REVERSIBILITY TIERS                             -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 01</strong> <span>Reversibility tiers</span>
+        </div>
+        <h2 class="slide__title reveal">
+          Classify every verb<br/>
+          by <span class="accent-red">how loud it screams</span> at 3 a.m.
+        </h2>
+
+        <div class="tier-ladder reveal">
+          <div class="tier --t1">
+            <span class="tier__num">T1</span>
+            <span class="tier__verbs">Read · Glob · Grep · Edit-in-cwd · npm test</span>
+            <span class="tier__gate">Reversible local. <code>dontAsk</code> + allowlist. No prompt. Git is your undo button.</span>
+          </div>
+          <div class="tier --t2">
+            <span class="tier__num">T2</span>
+            <span class="tier__verbs">git commit · git branch · gh pr create · npm install</span>
+            <span class="tier__gate">Git-recoverable. <code>ask</code> rule for first run, <code>allow</code> after canary. Never <code>--force</code>.</span>
+          </div>
+          <div class="tier --t3">
+            <span class="tier__num">T3</span>
+            <span class="tier__verbs">git push origin main · prod schema migration · vercel deploy --prod</span>
+            <span class="tier__gate">Visible to others. PR-only — agent opens, human merges. Deny direct push.</span>
+          </div>
+          <div class="tier --t4">
+            <span class="tier__num">T4</span>
+            <span class="tier__verbs">DROP · DELETE FROM · Volume.Delete · Stripe.Refund · SendEmail</span>
+            <span class="tier__gate">Outbox + deterministic worker. HITL approval card. Idempotency key. Agent never holds the credentials.</span>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-subhead-room); color: var(--color-fg); margin-top: 1.5rem; max-width: 64ch;">
+          Default deny on T3 and T4. Promote a verb a tier <em>only</em> after the canary passes for a week.
+          <strong style="font-style: normal; color: var(--color-accent-1);">Promotion is a code change, not a prompt.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · SUBAGENT ISOLATION                              -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 02</strong> <span>Isolate the blast radius</span>
+        </div>
+        <h2 class="slide__title reveal">
+          One agent should not<br/>
+          hold every <span class="accent-red">tool.</span>
+        </h2>
+
+        <div class="primitives reveal" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;">
+          <div class="primitive">
+            <span class="primitive__num">01</span>
+            <span class="primitive__name">Orchestrator</span>
+            <p class="primitive__note"><strong style="color: var(--color-accent-1);">Read-only.</strong> Plans, delegates, synthesizes. <code>Read · Glob · Grep · Agent</code>. Cannot mutate state. The orchestrator can never <code>rm -rf</code>.</p>
+          </div>
+          <div class="primitive">
+            <span class="primitive__num">02</span>
+            <span class="primitive__name">Executor</span>
+            <p class="primitive__note"><strong style="color: var(--color-accent-1);">Narrow writer.</strong> Tool allowlist scoped to one domain (edit, deploy, send). Inherits a fresh context window. <code>permissionMode: dontAsk</code>.</p>
+          </div>
+          <div class="primitive">
+            <span class="primitive__num">03</span>
+            <span class="primitive__name">Verifier</span>
+            <p class="primitive__note"><strong style="color: var(--color-accent-1);">Read-only judge.</strong> Runs evals, diffs, tests. Emits a binary verdict. Sees the executor's diff but not the orchestrator's plan.</p>
+          </div>
+        </div>
+
+        <div class="two-col reveal" style="margin-top: 1.5rem; align-items: start;">
+          <div class="stack">
+            <blockquote class="quote" style="font-size: var(--type-subhead-room); max-width: 38ch;">
+              Multi-agent Opus + Sonnet beat single-agent Opus by <strong style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">90.2%</strong> on internal research evals.
+              <span class="quote__source">Anthropic · multi-agent research system</span>
+            </blockquote>
+          </div>
+          <div class="stack">
+            <blockquote class="quote" style="font-size: var(--type-subhead-room); max-width: 38ch;">
+              "Actions carry implicit decisions. Conflicting decisions carry bad results."
+              <span class="quote__source">Walden Yan · Cognition</span>
+            </blockquote>
+            <p class="slide__body slide__body--wide" style="font-size: var(--type-body-room); max-width: 40ch; margin-top: 0.5rem; color: var(--color-muted);">
+              Reconcile both: parallel <em style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">reads</em>, serialized <em style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">writes</em>.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); color: var(--color-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-top: 1rem;">
+          Footgun · <code>bypassPermissions</code> on the orchestrator silently disarms every subagent. Never use it outside a sandbox.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — Budgets & breakers                                -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·budgets &amp; breakers</span>
+      </div>
+
+      <div class="pre-b__row">
+        <div class="pre-b__cell pre-b__cell--blob-1"></div>
+        <div class="pre-b__cell pre-b__cell--blob-2"></div>
+        <div class="pre-b__gate-bar"></div>
+        <div class="pre-b__cell pre-b__cell--blob-4 pre-b__cell--blocked"></div>
+        <div class="pre-b__cell pre-b__cell--blob-5 pre-b__cell--blocked"></div>
+      </div>
+
+      <p class="pre__caption">Trip the wire.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · LOOP BUDGETS & CIRCUIT BREAKERS                 -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 03</strong> <span>Budgets &amp; breakers</span>
+        </div>
+        <h2 class="slide__title reveal">
+          Errors compound.<br/>
+          Make the harness<br/>
+          <span class="accent-red">trip the wire.</span>
+        </h2>
+
+        <div class="callout reveal" style="margin-top: 1rem;">
+          <span class="callout__badge">Real incident</span>
+          <h2 class="callout__headline">
+            $437 by 7 a.m.
+          </h2>
+          <p class="callout__body">
+            A nightly summarizer entered a retry loop at 11 p.m. and racked up
+            <strong>$437</strong> on the company card before anyone noticed.
+            No turn cap. No cost ceiling. No tool-level breaker.
+          </p>
+        </div>
+
+        <div class="two-col reveal" style="margin-top: 1.5rem; align-items: start;">
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: var(--color-muted);">Harness-enforced ceilings · TypeScript</p>
+            <div class="code-block">
+<span class="kw">const</span> LIMITS = {
+  maxTurns: <span class="str">30</span>,
+  maxToolCalls: <span class="str">100</span>,
+  maxInputTokens: <span class="str">500_000</span>,
+  maxCostUSD: <span class="str">5.00</span>,
+};
+
+<span class="kw">for await</span> (<span class="kw">const</span> m <span class="kw">of</span> query({
+  prompt, options: { permissionMode: <span class="str">"dontAsk"</span> }
+})) {
+  stats.cost += costOf(m.usage);
+  <span class="kw">if</span> (stats.cost &gt; LIMITS.maxCostUSD)
+    <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"cost ceiling"</span>);
+}</div>
+          </div>
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: var(--color-muted);">Per-tool circuit breaker · PreToolUse</p>
+            <div class="code-block">
+<span class="com"># 5 failures in 60s → trip</span>
+<span class="com"># human resets a flag in Redis</span>
+
+<span class="kw">if</span> failures_in_window(tool, <span class="str">60</span>) &gt;= <span class="str">5</span>:
+    <span class="kw">return</span> deny(
+      <span class="str">"breaker open: "</span> + tool +
+      <span class="str">" — human reset required"</span>
+    )
+
+<span class="com"># one probe after cooldown</span>
+<span class="com"># avoid stampeding the upstream</span></div>
+            <p class="slide__body slide__body--wide" style="font-size: var(--type-body-room); max-width: 38ch; margin-top: 0.75rem; color: var(--color-muted);">
+              <em style="color: var(--color-fg); font-style: normal; font-weight: 700;">"Agents are stateful and errors compound."</em>
+              <span style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); letter-spacing: var(--tracking-wide); text-transform: uppercase;"> · Anthropic</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · EVALS · CANARIES · SHADOW                       -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 04</strong> <span>Evals · canaries · shadow</span>
+        </div>
+        <h2 class="slide__title reveal">
+          Don't measure attempts.<br/>
+          Measure <span class="accent-red">all-k success.</span>
+        </h2>
+
+        <div class="two-col reveal" style="margin-top: 1rem; align-items: start;">
+          <div class="stack">
+            <div class="rot-chart">
+              <div class="rot-bar">
+                <span><code style="font-family: var(--font-brutalist);">pass@k</code></span>
+                <div class="rot-bar__fill" data-width="80" style="background: linear-gradient(90deg, var(--color-accent-2), #e36b44);"></div>
+                <span class="rot-bar__val" style="color: var(--color-accent-2);">≥1 of k</span>
+              </div>
+              <div class="rot-bar">
+                <span><code style="font-family: var(--font-brutalist);">pass^k</code></span>
+                <div class="rot-bar__fill" data-width="38" style="background: linear-gradient(90deg, #00874a, #3fb271);"></div>
+                <span class="rot-bar__val" style="color: #00874a;">all of k</span>
+              </div>
+            </div>
+            <p class="slide__body slide__body--wide" style="font-size: var(--type-body-room); max-width: 42ch; margin-top: 0.5rem; color: var(--color-muted);">
+              <code style="font-family: var(--font-brutalist);">pass@k</code> says the agent <em>can</em>.<br/>
+              <code style="font-family: var(--font-brutalist);">pass^k</code> says the agent
+              <strong style="color: var(--color-accent-1);">does, every time.</strong>
+              For critical workflows, ship on <code style="font-family: var(--font-brutalist);">pass^k</code>.
+            </p>
+            <p style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); color: var(--color-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-top: 0.4rem;">
+              Source · Anthropic · "demystifying evals for ai agents"
+            </p>
+          </div>
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: var(--color-muted);">The graduation ladder</p>
+            <ul class="bullet-list bullet-list--bare" style="font-size: var(--type-body-room);">
+              <li><div><strong style="color: var(--color-accent-1);">Plan mode</strong> — agent emits the diff. Human reads. Apply by hand.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">Dry-run</strong> — every destructive verb has a <code style="font-family: var(--font-brutalist);">--preview</code> twin that returns the would-be SQL/HTTP.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">Shadow</strong> — agent decides, human ratifies. Log the delta. Graduate when delta is acceptable.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">Canary</strong> — every deploy runs a hello-world that exercises every tool surface.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">Production</strong> — only after the canary has stayed green for a week.</div></li>
+            </ul>
+            <p style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-body-room); color: var(--color-fg); margin-top: 0.75rem; max-width: 36ch;">
+              You're not training the model. You're training <strong style="font-style: normal; color: var(--color-accent-1);">the harness</strong> around it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — Lethal trifecta                                   -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·the lethal trifecta</span>
+      </div>
+
+      <div class="pre-b__row">
+        <div class="pre-b__cell pre-b__cell--blob-1" data-label="data"></div>
+        <div class="pre-b__cell pre-b__cell--blob-3 pre-b__cell--post" data-label="trust"></div>
+        <div class="pre-b__cell pre-b__cell--blob-5 pre-b__cell--post" data-label="egress"></div>
+      </div>
+
+      <p class="pre__caption">Three corners. Remove one.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · LETHAL TRIFECTA + ADVERSARIAL                   -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 05</strong> <span>Adversarial defense</span>
+        </div>
+        <h2 class="slide__title reveal">
+          The PR title<br/>
+          is <em style="color: var(--color-accent-1); font-style: normal;">already</em><br/>
+          in your <span class="accent-red">prompt.</span>
+        </h2>
+
+        <div class="trifecta reveal">
+          <div class="trifecta__corner">
+            <strong>01 · Private data</strong>
+            <span>Production secrets, customer PII, internal docs in the agent's context.</span>
+          </div>
+          <div class="trifecta__corner">
+            <strong>02 · Untrusted content</strong>
+            <span>PR titles, issue bodies, web pages, MCP tool descriptions, PDFs with white-on-white text.</span>
+          </div>
+          <div class="trifecta__corner">
+            <strong>03 · Egress</strong>
+            <span>Any tool that POSTs outbound. WebFetch. Files API. SendEmail. Even a markdown image renders.</span>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-subhead-room); color: var(--color-fg); margin-top: 1.25rem; max-width: 60ch;">
+          Combine all three and the agent is exfiltratable.
+          <strong style="font-style: normal; color: var(--color-accent-1);">Remove any one corner</strong>
+          and the trifecta breaks.
+          <span style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); letter-spacing: var(--tracking-wide); color: var(--color-muted); text-transform: uppercase;"> — Simon Willison · Jun 2025</span>
+        </p>
+
+        <div class="two-col reveal" style="margin-top: 1.5rem; align-items: start;">
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: var(--color-accent-2);">Real published exploits · 2025</p>
+            <ul class="bullet-list bullet-list--bare" style="font-size: var(--type-body-room);">
+              <li><div><strong style="color: var(--color-accent-1);">Comment &amp; Control</strong> · Oct 2025 · CVSS 9.4. PR title in the prompt → <code>ANTHROPIC_API_KEY</code> exfiltrated. Hit Claude Code, Gemini CLI, Copilot.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">EchoLeak</strong> · CVE-2025-32711. Zero-click data theft from M365 Copilot via crafted email.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">postmark-mcp</strong> · Sept 2025. First in-the-wild malicious MCP server. BCC field silently added; outgoing emails copied to attacker.</div></li>
+              <li><div><strong style="color: var(--color-accent-1);">Notion AI exfil</strong> · Sept 2025. White-on-white PDF instructions. No user action.</div></li>
+            </ul>
+          </div>
+          <div class="stack">
+            <p class="slide__eyebrow" style="color: #006b3c;">Defenses you can ship today</p>
+            <ul class="bullet-list bullet-list--bare" style="font-size: var(--type-body-room);">
+              <li><div><strong style="color: #006b3c;">Credential brokering</strong> · agent never holds prod tokens. Outbox + deterministic worker.</div></li>
+              <li><div><strong style="color: #006b3c;">Egress allowlist</strong> · <code>WebFetch(domain:...)</code> only. Block <code>curl</code>/<code>wget</code> outright.</div></li>
+              <li><div><strong style="color: #006b3c;">MCP server pinning</strong> · SHA-pin servers. Allowlist only. Disable auto-update.</div></li>
+              <li><div><strong style="color: #006b3c;">Provenance tags</strong> · wrap external content in <code>&lt;&lt;&lt;UNTRUSTED&gt;&gt;&gt;</code> markers; strip chat-template literals.</div></li>
+              <li><div><strong style="color: #006b3c;">Output filter</strong> · scrub secrets and external links from anything the agent emits.</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PRE — OpenClaw checklist                                -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper slide--pre">
+      <span class="register-mark --tl"></span>
+      <span class="register-mark --br"></span>
+
+      <div class="pre__chip">
+        <strong>PREVIEW</strong> <span>Up next ·the checklist</span>
+      </div>
+
+      <div class="pre-b__col">
+        <div class="pre-b__cell pre-b__cell--blob-1"></div>
+        <div class="pre-b__cell pre-b__cell--blob-2"></div>
+        <div class="pre-b__cell pre-b__cell--blob-3"></div>
+        <div class="pre-b__cell pre-b__cell--blob-4"></div>
+        <div class="pre-b__cell pre-b__cell--blob-5"></div>
+      </div>
+
+      <p class="pre__caption">Today. Before the next session.</p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · OPENCLAW HARDENING CHECKLIST                    -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>HARDENING 06</strong> <span>The OpenClaw / Claude Code checklist</span>
+        </div>
+        <h2 class="slide__title reveal">
+          Twelve checkboxes.<br/>
+          <span class="accent-red">Ship before you sleep.</span>
+        </h2>
+        <p class="slide__body slide__body--wide reveal" style="font-size: var(--type-subhead-room); max-width: 56ch; color: var(--color-muted);">
+          For OpenClaw operators and Claude Agent SDK users running agents against critical systems.
+          One pass through this list closes 80% of the catastrophe tape.
+        </p>
+
+        <div class="checklist reveal">
+          <div class="checklist__item"><div><strong>Audit</strong> · run <code style="font-family: var(--font-brutalist);">openclaw security audit --deep</code> and resolve every finding before first prod run.</div></div>
+          <div class="checklist__item"><div><strong>Bind</strong> · <code style="font-family: var(--font-brutalist);">gateway.bind: "loopback"</code>. Tailscale Serve over raw LAN. Never <code>0.0.0.0</code> unauthenticated.</div></div>
+          <div class="checklist__item"><div><strong>Auth</strong> · <code style="font-family: var(--font-brutalist);">gateway.auth.mode: "token"</code>. Long random secret. Separate from <code>hooks.token</code>.</div></div>
+          <div class="checklist__item"><div><strong>Permission mode</strong> · <code style="font-family: var(--font-brutalist);">dontAsk</code> for headless. <code>plan</code> for diff-first. Never <code>bypassPermissions</code> outside a sandbox.</div></div>
+          <div class="checklist__item"><div><strong>Allowlist</strong> · explicit <code style="font-family: var(--font-brutalist);">allowed_tools</code>. Default-deny groups <code>automation</code>, <code>runtime</code>, <code>fs</code> until needed.</div></div>
+          <div class="checklist__item"><div><strong>Deny rules</strong> · <code style="font-family: var(--font-brutalist);">git push --force</code>, <code>rm -rf</code>, <code>DROP|DELETE</code>, <code>~/.aws/**</code>, <code>**/.env</code>. Belt + braces with a PreToolUse hook.</div></div>
+          <div class="checklist__item"><div><strong>Sandbox</strong> · sandbox mode <code style="font-family: var(--font-brutalist);">"all"</code> for non-main sessions. Workspace <code>"ro"</code> unless the verb genuinely needs to write.</div></div>
+          <div class="checklist__item"><div><strong>Atomic commits</strong> · Stop hook auto-commits at end of every turn. SessionStart hook refuses dirty trees.</div></div>
+          <div class="checklist__item"><div><strong>Loop budgets</strong> · <code style="font-family: var(--font-brutalist);">maxTurns</code>, <code>maxToolCalls</code>, <code>maxCostUSD</code> enforced in the harness. Trip on cost, not on apology.</div></div>
+          <div class="checklist__item"><div><strong>Outbox</strong> · agent emits intent records, not <code style="font-family: var(--font-brutalist);">DELETE</code>s. Deterministic worker holds prod credentials and executes.</div></div>
+          <div class="checklist__item"><div><strong>MCP pinning</strong> · allowlist only. SHA-pin every server. Disable auto-update. Postmark rug-pulled in 9 hours.</div></div>
+          <div class="checklist__item"><div><strong>Shadow mode</strong> · first 100 prod runs: agent decides, human ratifies, log the delta. Graduate only on acceptable distribution.</div></div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-subhead-room); color: var(--color-fg); margin-top: 1rem; max-width: 64ch;">
+          Same checklist applies to Claude Code via <code style="font-family: var(--font-brutalist);">.claude/settings.json</code>.
+          <strong style="font-style: normal; color: var(--color-accent-1);">New shell, same primitives.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · CLOSING PRINCIPLE                               -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack stack--center">
+        <div class="part-chip reveal">
+          <strong>PART 03 · CLOSE</strong> <span>The principle, again</span>
+        </div>
+        <h2 class="slide__title slide__title--massive reveal" style="max-width: 22ch;">
+          The model<br/>
+          <span style="color: var(--color-muted);">proposes.</span>
+        </h2>
+        <h2 class="slide__title slide__title--massive reveal" style="max-width: 22ch;">
+          The <span class="accent-red">harness</span><br/>
+          <span class="accent-gold">disposes.</span>
+        </h2>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); line-height: 1.05; margin-top: 2rem; max-width: 32ch; color: var(--color-fg); text-align: center;">
+          Boring agents <span style="color: var(--color-accent-1); font-style: normal; font-weight: 700;">compound.</span><br/>
+          Hardened agents <span style="color: var(--color-accent-2); font-style: normal; font-weight: 700;">survive contact</span> with prod.
+        </p>
+
+        <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--color-muted); margin-top: 1.5rem;">
+          The claw is the law. <span class="lobster-glyph" style="font-size: 1.6em; line-height: 1; vertical-align: -0.2em;">molt</span> your harness.
         </p>
       </div>
     </section>
