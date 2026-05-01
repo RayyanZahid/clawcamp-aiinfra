@@ -1529,7 +1529,7 @@ sleep = random(<span class="str">0</span>, min(cap, base * <span class="str">2</
     <!-- ============================================================== -->
 
     <!-- ===================================================== -->
-    <!-- SECTION OPENER · PART 03                                -->
+    <!-- SECTION OPENER · PART 03 — three honest statements      -->
     <!-- ===================================================== -->
     <section class="slide slide--paper slide--title">
       <span class="register-mark --tl"></span>
@@ -1539,18 +1539,74 @@ sleep = random(<span class="str">0</span>, min(cap, base * <span class="str">2</
 
       <div class="hero">
         <div class="part-chip reveal">
-          <strong>PART 03</strong> <span>The chassis is not enough</span>
+          <strong>PART 03</strong> <span>Honest start</span>
         </div>
         <h1 class="slide__title slide__title--massive reveal">
-          When stakes<br/>
-          get <span class="accent-red">real.</span>
+          Your AI<br/>
+          is <span class="accent-red">not</span><br/>
+          super-intelligent.
         </h1>
-        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); color: var(--color-fg); max-width: 30ch; margin-top: 1.5rem;">
-          Boring is the floor.<br/>
-          <strong style="font-style: normal; color: var(--color-accent-2); font-weight: 700;">Critical</strong> needs more.
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); color: var(--color-fg); max-width: 36ch; margin-top: 1.5rem; line-height: 1.15;">
+          Working with subagents is not<br/>
+          <strong style="font-style: normal; color: var(--color-accent-2); font-weight: 700;">hard orchestration.</strong>
+        </p>
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); color: var(--color-fg); max-width: 36ch; line-height: 1.15;">
+          Comms between agents inherit<br/>
+          every <strong style="font-style: normal; color: var(--color-accent-1); font-weight: 700;">human-comms problem.</strong>
         </p>
         <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--color-muted); margin-top: 1.5rem;">
-          For agents touching prod data, money, or people.
+          So the harness has to do the heavy lifting.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SLIDE · THREE MYTHS, EXPANDED                           -->
+    <!-- ===================================================== -->
+    <section class="slide slide--paper">
+      <div class="stack" style="align-content: start;">
+        <div class="part-chip reveal">
+          <strong>RESET</strong> <span>Three myths to drop</span>
+        </div>
+        <h2 class="slide__title reveal">
+          What you're actually<br/>
+          <span class="accent-red">working with.</span>
+        </h2>
+
+        <div class="primitives reveal" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;">
+          <div class="primitive">
+            <span class="primitive__num">01</span>
+            <span class="primitive__name">Not super-intelligence</span>
+            <p class="primitive__note">
+              It's <strong style="color: var(--color-accent-1);">pattern matching with a tool belt.</strong>
+              Confidently wrong is the default, not the exception. The Replit agent didn't malfunction — it was being itself.
+            </p>
+          </div>
+          <div class="primitive">
+            <span class="primitive__num">02</span>
+            <span class="primitive__name">Not hard orchestration</span>
+            <p class="primitive__note">
+              Subagents are <strong style="color: var(--color-accent-1);">LLM calls in a loop</strong> with prompts as routing logic.
+              No distributed runtime. No consensus protocol. Text in, text out, dispatched by code you wrote in an afternoon.
+            </p>
+          </div>
+          <div class="primitive">
+            <span class="primitive__num">03</span>
+            <span class="primitive__name">Not magic comms</span>
+            <p class="primitive__note">
+              Two agents talking is <strong style="color: var(--color-accent-1);">two flawed humans on Slack</strong> —
+              ambiguity, context drop, telephone-game decay, conflicting decisions. Faster, and without the social cues that catch drift.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="font-family: var(--font-editorial); font-style: italic; font-size: var(--type-headline-room); line-height: 1.05; margin-top: 2rem; max-width: 44ch;">
+          If you wouldn't trust a tired junior engineer<br/>
+          to run that command on prod,<br/>
+          <strong style="font-style: normal; color: var(--color-accent-1); font-weight: 700;">don't trust the agent either.</strong>
+        </p>
+        <p class="reveal" style="font-family: var(--font-brutalist); font-size: var(--type-caption-room); color: var(--color-muted); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-top: 0.5rem;">
+          Hardening, then, is not optional. It's the whole job.
         </p>
       </div>
     </section>
